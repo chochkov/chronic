@@ -933,6 +933,26 @@ class TestParsing < Test::Unit::TestCase
     assert_equal Time.local(2006, 8, 10, 12), time
   end
 
+  def test_handle_periods
+    Chronic.parse_span('yesterday')
+    Chronic.parse_span('2 days ago')
+    Chronic.parse_span('this month')
+    Chronic.parse_span('last month')
+    Chronic.parse_span('2 months ago')
+    Chronic.parse_span('the last two months')
+    Chronic.parse_span('July') # the whole month
+    Chronic.parse_span('3rd monday in July') # only that day
+    Chronic.parse_span('the day three weeks ago') # that day
+    Chronic.parse_span('the day 1 month ago')
+    Chronic.parse_span('the day a month ago')
+    Chronic.parse_span('from today 7am until tomorrow 7am')
+    Chronic.parse_span('today 7am', 'tomorrow 7am')
+
+    # todo
+    Chronic.parse('today 7:30am', :span => :hour) # the hour around 7:30am, i.e. (7:00am..8:00am)
+    Chronic.parse('last week', :span => :week) # the hour around 7:30am, i.e. (7:00am..8:00am)
+  end
+
   private
   def parse_now(string, options={})
     Chronic.parse(string, {:now => TIME_2006_08_16_14_00_00 }.merge(options))

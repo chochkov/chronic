@@ -87,6 +87,15 @@ module Chronic
       end
     end
 
+    def parse_span(*args)
+      if args.flatten.size > 1
+        Span.new(parse(args.flatten[0]), parse(args.flatten[1]))
+      else
+        text = args.flatten.first
+        # todo parse text according to the specs
+      end
+    end
+
     # Clean up the specified text ready for parsing
     #
     # Clean up the string by stripping unwanted characters, converting
